@@ -1,7 +1,8 @@
 <?php
-require_once('dbconnect.php');
+require_once('../dbconnect.php');
 
 if (isset($_POST['submit'])) {
+
     $username = $con->real_escape_string($_POST['username']);
     $password = $con->real_escape_string($_POST['password']);
 
@@ -22,20 +23,20 @@ if (isset($_POST['submit'])) {
         $_SESSION["password"] = $row["password"];
         $_SESSION["level"] = $row["level"];
         $_SESSION["img"] = $row["img"];
-       
 
-        if($_SESSION['level'] == 'admin'){
-            header("location: profile.php");
-        }
-        if($_SESSION['level'] == 'employee'){
-            header("location: profile.php");
-        }
-        if($_SESSION['level'] == 'member'){
-            header("location: profile.php");
-        }
-       
+        header("location: index.php");
+
+        // if($_SESSION['level'] == 'admin'){
+        //     header("location: index.php");
+        // }
+        // if($_SESSION['level'] == 'employee'){
+        //     header("location: index.php");
+        // }
+        // if($_SESSION['level'] == 'member'){
+        //     header("location: index.php");
+        // }
+
     } else {
-
         echo "<script>";
         echo "alert(\" username หรือ  password ไม่ถูกต้อง\");";
         echo "</script>";
@@ -57,15 +58,15 @@ if (isset($_POST['submit'])) {
     <!-- <link rel="stylesheet" href="../css/all.min.css"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- icheck bootstrap -->
-    <link rel="stylesheet" href="css/icheck-bootstrap.min.css">
+    <link rel="stylesheet" href="../css/icheck-bootstrap.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="css/adminlte.min.css">
+    <link rel="stylesheet" href="../css/adminlte.min.css">
 </head>
 
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="../../index2.html"><b>Login</b></a>
+            <a href="../../index2.html"><b>LOGIN</b></a>
         </div>
         <!-- /.login-logo -->
         <div class="card">
@@ -95,6 +96,13 @@ if (isset($_POST['submit'])) {
                         <div class="col-12">
                             <button type="submit" name="submit" class="btn btn-primary btn-block">Sign In</button>
                         </div>
+                        <div class="col-12">
+                            <p class="text-center">- OR -</p>
+                            <a href="line_login.php" class="btn btn-block btn-success">
+                                <i class="fab fa-line mr-2"></i> Sign in using Line
+                            </a>
+
+                        </div>
                         <!-- /.col -->
                     </div>
                 </form>
@@ -105,11 +113,11 @@ if (isset($_POST['submit'])) {
     <!-- /.login-box -->
 
     <!-- jQuery -->
-    <script src="js/jquery.min.js"></script>
+    <script src="../js/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
-    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
-    <script src="js/adminlte.min.js"></script>
+    <script src="../js/adminlte.min.js"></script>
 </body>
 
 </html>
