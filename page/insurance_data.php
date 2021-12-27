@@ -13,7 +13,6 @@ $sqlp = "SELECT * FROM user_role  ";
 $resultp = mysqli_query($con, $sqlp);
 
 
-
 ?>
 
 <!DOCTYPE html>
