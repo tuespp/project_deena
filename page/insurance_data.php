@@ -214,7 +214,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 <th>ทะเบียนรถ</th>
                                                 <th>วันหมดอายุ</th>
                                                 <th>เบี้ยรวม</th>
-                                                <th>วันแจ้งเตือน</th>
+                                                <th>แจ้งเตือน Line</th>
+                                                <th>แจ้งเตือน SMS</th>
                                                 <th>สถานะ</th>
                                                 <th>Action</th>
 
@@ -237,7 +238,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     <?php } else { ?>
                                                         <td><span class="badge bg-danger"><?php echo $row['status']; ?></span></td>
                                                     <?php } ?>
-
+                                                    <?php if ($row['status_sms'] == 'Sended') { ?>
+                                                        <td><span class="badge bg-success"><?php echo $row['status_sms']; ?></span></td>
+                                                    <?php } else { ?>
+                                                        <td><span class="badge bg-danger"><?php echo $row['status_sms']; ?></span></td>
+                                                    <?php } ?>
                                                     <td><?php echo $row['date_send']; ?></td>
                                                     <td><a href="insurance_edit.php?id=<?php echo $row['id']; ?>"><i class="far fa-edit"></a></i>&nbsp;&nbsp;&nbsp;<a href="../backend/insurabce_delete.php?id=<?php echo $row['id']; ?>" onclick="return confirm('Are you sure to delete ?')"><i class="far fa-trash-alt"></i></a></td>
 

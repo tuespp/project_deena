@@ -223,7 +223,8 @@ $result = mysqli_query($con, $sql);
                     <th>วันครบกำหนด</th>
                     <th> งวดละ </th>
                     <th> สถานะ </th>
-                    <th>วันแจ้งเตือน</th>
+                    <th>แจ้งเตือน Line</th>
+                    <th>แจ้งเตือน SMS</th>
                     <th>Action</th>
 
                 </tr>
@@ -253,6 +254,12 @@ $result = mysqli_query($con, $sql);
                         <?php } else {?>
                             <td><span class="badge bg-danger"><?php echo $row['status']; ?></span></td>
                         <?php } ?>
+                        <?php if($row['status_sms'] == 'Sended') { ?>
+                        <td><span class="badge bg-success"><?php echo $row['status_sms']; ?></span></td>
+                        <?php } else {?>
+                            <td><span class="badge bg-danger"><?php echo $row['status_sms']; ?></span></td>
+                        <?php } ?>
+
                         <td><?php echo $row['date_send']; ?></td>
 
                         <td><a href="payment_edit_form.php?id=<?php echo $row['id']; ?>"><i class="far fa-edit"></a></i>&nbsp;&nbsp;&nbsp;<a href="../backend/payment_delete.php?id=<?php echo $row['id']; ?>" onclick="return confirm('Are you sure to delete ?')"><i class="far fa-trash-alt"></i></a></td>
