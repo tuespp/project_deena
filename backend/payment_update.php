@@ -22,6 +22,7 @@ $installment_no = $_POST['installment_no'];
 $date_end = $_POST['date_end'];
 $installment = $_POST['installment'];
 $date_send = $_POST['date_send'];
+$note = $_POST['note'];
 
 
 
@@ -29,7 +30,8 @@ $sql = "UPDATE payment SET invoice_id='$invoice_id',invoice_date='$invoice_date'
 insurance_id='$insurance_id',insurance='$insurance',name='$name',phone='$phone',
 type='$type',car_license='$car_license',date_start='$date_start',premium='$premium',
 premium_total='$premium_total',agent='$agent',installment_no='$installment_no',date_end='$date_end',
-installment='$installment',date_send='$date_send' WHERE id = '$id' "; 
+installment='$installment',date_send='$date_send',note='$note' 
+WHERE id = '$id' "; 
 
 $result = mysqli_query($con,$sql) or die ;
 

@@ -5,7 +5,7 @@ $date_now = date("Y-m-d");
 
 /* $sql = "SELECT * FROM users_all WHERE status = '1'"; */
 
-$sql2 = "SELECT payment.car_license ,payment.installment_no , payment.installment , payment.insurance, payment.date_send , payment.date_end , users_info.user_id, users_info.tel
+$sql2 = "SELECT payment.car_license ,payment.installment_no , payment.installment , payment.insurance,payment.status, payment.date_send , payment.date_end , users_info.user_id, users_info.tel
 FROM payment
 INNER JOIN users_info ON payment.phone = users_info.tel";
 
@@ -21,6 +21,7 @@ while ($row2 = mysqli_fetch_array($result2)) {
     $insurance = $row2['insurance'];
     $phone = $row2['tel'];
     $date_end = $row2['date_end'];
+    $status = $row2['status'];
 
 
    
@@ -28,7 +29,7 @@ while ($row2 = mysqli_fetch_array($result2)) {
 
 
 
-    if ($date_send == $date_now) {
+    if ($date_send == $date_now && $status == '0') {
 
         
         $access_token = 'ynU0QtbQ0RaavkO7aEfXHYEdAlpU+xzWDtyMgOI5fsQegkB+duJi6HEL1DSBwW6O09MSUsGhASBAiVEt8mhF8WV+M7S+BMJyRKnoTEqtfNDN7de82RC4p+okDUQ4YQYFH7KQsnDVTo+/eEbjQeeRawdB04t89/1O/w1cDnyilFU=';
@@ -36,7 +37,7 @@ while ($row2 = mysqli_fetch_array($result2)) {
         $messages = array(
             'type' => 'text',
             'text' => 'แจ้งชำระเงิน'. "\n" .'ทะเบียนรถ:' . " " . $car_license . "\n" . 'โปรดชำระค่าเบี้ยประกันงวดที่:' . " " . $installment_no . "\n" . 'จำนวน:' . " " . $installment . 'บ.' . "\n" . 'ภายในวันที่:' . " " . $date_end . " ",
-
+            
         );
         $post = json_encode(array(
             'to' => array($userId),
@@ -61,7 +62,7 @@ while ($row2 = mysqli_fetch_array($result2)) {
 
 
             $sql4 = "UPDATE payment
-            SET status = 'Sended'
+            SET status = '1'
             WHERE phone = $phone ";
 
             $result4 = mysqli_query($con, $sql4) or die;

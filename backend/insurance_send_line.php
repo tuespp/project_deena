@@ -5,7 +5,7 @@ $date_now = date("Y-m-d");
 
 /* $sql = "SELECT * FROM users_all WHERE status = '1'"; */
 
-$sql2 = "SELECT data_insurance.car_license ,data_insurance.insurance , data_insurance.date_send, data_insurance.exp , data_insurance.interest , data_insurance.phone , users_info.user_id
+$sql2 = "SELECT data_insurance.car_license ,data_insurance.insurance , data_insurance.date_send, data_insurance.exp , data_insurance.interest , data_insurance.status , data_insurance.phone , users_info.user_id
 FROM data_insurance
 INNER JOIN users_info ON data_insurance.phone = users_info.tel";
 
@@ -20,13 +20,15 @@ while ($row2 = mysqli_fetch_array($result2)) {
     $user_id = $row2['user_id'];
     $insurance = $row2['insurance'];
     $exp = $row2['exp'];
+    $status = $row2['status'];
+
 
 
    
  
 
 
-    if ($date_send == $date_now) {
+    if ($date_send == $date_now && $status == '0' ) {
 
 
         $access_token = 'ynU0QtbQ0RaavkO7aEfXHYEdAlpU+xzWDtyMgOI5fsQegkB+duJi6HEL1DSBwW6O09MSUsGhASBAiVEt8mhF8WV+M7S+BMJyRKnoTEqtfNDN7de82RC4p+okDUQ4YQYFH7KQsnDVTo+/eEbjQeeRawdB04t89/1O/w1cDnyilFU=';
@@ -35,6 +37,7 @@ while ($row2 = mysqli_fetch_array($result2)) {
             'type' => 'text',
             'text' => 'แจ้งเตือนต่ออายุ'. "\n".'ทะเบียนรถ:' . " " . $car_license . "\n" . 'ประกันรถยนต์จะหมดอายุวันที่:' . " " . $exp . "\n" . 'เบี้ยต่ออายุ:' . " " . $interest . 'บ.' . "\n" . 'โปรดติดต่อ:' . " " . $phone . " " . 'จากดีน่า',
              
+            
 
         );
         $post = json_encode(array(
@@ -60,7 +63,7 @@ while ($row2 = mysqli_fetch_array($result2)) {
             $result3 = mysqli_query($con, $sql3) or die;
 
             $sql4 = "UPDATE data_insurance
-            SET status = 'Sended'
+            SET status = '1'
             WHERE phone = $phone ";
 
             $result4 = mysqli_query($con, $sql4) or die;

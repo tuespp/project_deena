@@ -50,12 +50,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 style="text-transform: uppercase">เพื่มข้อมูล</h1>
+                        <h1 style="text-transform: uppercase">รายงาน</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="insurance_insert_form.php" style="text-transform: uppercase">เพื่มข้อมูล</a></li>
-                            <li class="breadcrumb-item active" style="text-transform: uppercase">เพื่มข้อมูล</li>
+                            <li class="breadcrumb-item"><a href="insurance_insert_form.php" style="text-transform: uppercase">รายงาน</a></li>
+                            <li class="breadcrumb-item active" style="text-transform: uppercase">รายงาน</li>
                         </ol>
                     </div>
                 </div>
@@ -73,49 +73,48 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <!-- general form elements -->
                         <div class="card card-warning">
                             <div class="card-header">
-                                <h3 class="card-title">เพื่มข้อมูลผู้ใช้</h3>
+                                <h3 class="card-title">รายงาน</h3>
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
+                            <?php
 
-                            <form action="../backend/insurance_insert.php" method="POST">
+
+                            $sql = "SELECT * FROM status";
+                            $result = mysqli_query($con, $sql);
+
+
+                            ?>
+                            <form action="../backend/send_group.php" method="POST">
+
                                 <div class="card-body">
-                                    <div class="form-group">
-
-                                        <label for="exampleInputEmail1">ผู้เอาประกันภัย</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1" name="insurance" value="" placeholder="ชื่อ - นามสกุล" required>
-
+                                    <div class="col-sm-12">
+                                        <!-- select -->
+                                        <div class="form-group">
+                                            <label>Custom Select</label>
+                                            <select class="custom-select" name="status" id="status">
+                                                <option class="text-center" selected disabled> ------- Select Status -------</option>
+                                                <?php while ($row = mysqli_fetch_array($result)) { ?>
+                                                    <option value="<?php echo $row['id'] ?>" class="text-center"> <?php echo $row['status_name'] ?></option>
+                                                <?php  } ?>
+                                            </select> <br><br>
+                                            <select class="custom-select" name="sub_status" id="sub_status">
+                                                <option class="text-center">------- Select status -------</option>
+                                            </select>
+                                        </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="exampleInputPassword1">โทรศัพท์</label>
-                                        <input type="phone" class="form-control" id="exampleInputPassword1" name="phone" value="" placeholder="0XX-XXXXXXX" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputPassword1">ประเภท</label>
-                                        <input type="text" class="form-control" id="exampleInputPassword1" name="type" value="" placeholder="ประเภท" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputPassword1">ทะเบียนรถ</label>
-                                        <input type="text" class="form-control" id="exampleInputPassword1" name="car_license" value="" placeholder="ทะเบียนรถ" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputPassword1">วันหมดอายุ</label>
-                                        <input type="date" class="form-control" id="exampleInputPassword1" name="exp" value="" placeholder="Expiration Date" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputPassword1">เบี้ยรวม</label>
-                                        <input type="text" class="form-control" id="interest" name="interest" value="" placeholder="เบี้ยรวม" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputPassword1">วันแจ้งเตือน</label>
-                                        <input type="date" class="form-control" id="date_send" name="date_send" value="" placeholder="date_send" required>
+                                        <label>Text</label>
+                                        <textarea class="form-control" name="text" rows="3" required placeholder="Enter ..."></textarea>
                                     </div>
                                 </div>
                                 <!-- /.card-body -->
 
+
                                 <div class="card-footer">
                                     <button type="submit" class="btn btn-primary d-block m-auto">บันทึก</button>
                                 </div>
+
                             </form>
                         </div>
                         <!-- /.card -->
@@ -203,6 +202,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         $('#interest').on('keyup', function() {
                             updateTextView($(this));
                         });
+                    });
+                </script>
+
+                <script>
+                    $('#status').change(function() {
+
+
+
+                        var id = $(this).val();
+                        $.ajax({
+                            type: "post",
+                            url: "../backend/select_status.php",
+                            data: {
+                                status_id: id
+                            },
+
+                            success: function(data) {
+                                console.log(data);
+                                $('#sub_status').html(data);
+
+                            }
+                        })
                     });
                 </script>
 </body>

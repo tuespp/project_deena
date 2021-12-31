@@ -11,9 +11,10 @@ require('../dbconnect.php');
                 $exp = $_POST['exp'];
                 $interest = $_POST['interest'];
                 $date_send = $_POST['date_send'];
+                $note = $_POST['note'];
 
                 $sql2 = "UPDATE data_insurance
-                SET insurance = '$insurance', phone= '$phone',type = '$type',car_license = '$car_license',exp = '$exp',interest = '$interest',date_send = '$date_send'
+                SET insurance = '$insurance', phone= '$phone',type = '$type',car_license = '$car_license',exp = '$exp',interest = '$interest',date_send = '$date_send',note = '$note'
                  WHERE id = '$ids' ";
                 $result2 = mysqli_query($con, $sql2);
 

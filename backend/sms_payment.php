@@ -17,13 +17,15 @@ while ($row = mysqli_fetch_array($result)) {
   $installment = $row['installment'];
   $date_send = $row['date_send'];
   $time_send = $row['time_send'];
+  $status = $row['status_sms'];
+
   $time = explode(":", $time_send);
   $hr = $time[0];
   $min = $time[1];
   $sec = $time[2];
 
 
-
+  if ($status == '0'){
 
   $curl = curl_init();
 
@@ -62,8 +64,10 @@ if ($err) {
   $result3 = mysqli_query($con, $sql3) or die;
 
   $sql4 = "UPDATE payment
-SET status_sms = 'Sended'
+SET status_sms = '1'
 WHERE phone = $phone ";
 
   $result4 = mysqli_query($con, $sql4) or die;
+
+}
 }
