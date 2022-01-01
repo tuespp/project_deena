@@ -1,5 +1,19 @@
 <?php
+
+require('../dbconnect.php');
+
+
+
+?>
+
+
+<?php
 require_once('../dbconnect.php');
+
+$sub_id = $_GET['id'];
+
+
+
 
 $id = $_SESSION['id'];
 if (empty($id)) {
@@ -82,36 +96,57 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <?php
 
 
-                            $sql = "SELECT * FROM status";
-                            $result = mysqli_query($con, $sql);
+                            $sql2 = "SELECT * FROM users_info WHERE sub_status = '$sub_id' ";
+                            $result2 = mysqli_query($con, $sql2);
 
 
                             ?>
-                            <form action="../backend/send_group.php" method="POST">
+                            <form action="../backend/report_detail_send.php" method="POST">
 
                                 <div class="card-body">
                                     <div class="col-sm-12">
                                         <!-- select -->
                                         <div class="form-group">
-                                            <label>Select Status</label>
-                                            <select class="custom-select" name="status" id="status">
-                                                <option class="text-center" selected disabled> ------- Select Status -------</option>
-                                                <?php while ($row = mysqli_fetch_array($result)) { ?>
-                                                    <option value="<?php echo $row['id'] ?>" class="text-center"> <?php echo $row['status_name'] ?></option>
-                                                <?php  } ?>
-                                            </select> <br><br>
-                                            <label>Select Sub-status</label>
-                                            <select class="custom-select" name="sub_status" id="sub_status">
-                                                <option class="text-center">------- Select status -------</option>
-                                            </select>
-                                        <div id="detail" style="display: none;" class="text-right">
+
+                                            <div id="detail" style="display: none;" class="text-right">
+                                            </div>
                                         </div>
-                                        </div>
+
                                     </div>
                                     <div class="form-group">
                                         <label>Text</label>
                                         <textarea class="form-control" name="text" rows="3" required placeholder="Enter ..."></textarea>
                                     </div>
+                                    <table id="example1" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th><input type="checkbox" id="checkAll"> CheckAll</th>
+                                                <th>Name</th>
+
+
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <?php while ($row = mysqli_fetch_array($result2)) { ?>
+                                                <tr>
+                                                    <td><input type="checkbox" id="line_id" name="line_id[]" value="<?php echo $row['user_id']; ?>"></td>
+
+
+
+
+                                                    <td><?php echo $row['name']; ?></td>
+
+
+
+                                                </tr>
+
+
+                                            <?php  } ?>
+                                        </tbody>
+
+                                    </table>
                                 </div>
                                 <!-- /.card-body -->
 
@@ -211,59 +246,31 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </script>
 
                 <script>
-      /* --------------------------------------- select sub status -------------------------------------------------   */                
-                   
-                    $('#status').change(function() {
+                    $(document).ready(function() {
 
-
-
-                        var id = $(this).val();
-                        $.ajax({
-                            type: "post",
-                            url: "../backend/select_status.php",
-                            data: {
-                                status_id: id
-                            },
-
-                            success: function(data) {
-                                
-                                $('#sub_status').html(data);
-
+                        // Check/Uncheck ALl
+                        $('#checkAll').click(function() {
+                            if ($(this).is(':checked')) {
+                                $('input[name="line_id[]"]').prop('checked', true);
+                            } else {
+                                $('input[name="line_id[]"]').each(function() {
+                                    $(this).prop('checked', false);
+                                });
                             }
                         });
 
-/*      --------------------------------------- --------------------------------------------------------------*/    
+                        $('input[name="line_id[]"]').click(function() {
+                            var total_checkboxes = $('input[name="line_id[]"]').length;
+                            var total_checkboxes_checked = $('input[name="line_id[]"]:checked').length;
 
-                        var sub_id = $(this).val();
-                            console.log(sub_id);
-
-                            $('#detail').hide();
-
-
-                        $('#sub_status').change(function() {
-
-                            var sub_id = $(this).val();
-                            console.log(sub_id);
-
-                            $('#detail').show();
-
-
-                            var id = $(this).val();
-                            
-                        $.ajax({
-                            type: "post",
-                            url: "../backend/select_test.php",
-                            data: {
-                                status_id: id
-                            },
-
-                            success: function(data) {
-                                
-                                $('#detail').html(data);
-
+                            if (total_checkboxes_checked == total_checkboxes) {
+                                $('#checkAll').prop('checked', true);
+                            } else {
+                                $('#checkAll').prop('checked', false);
                             }
                         });
-                        });
+
+
 
                     });
                 </script>

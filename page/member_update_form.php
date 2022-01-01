@@ -40,8 +40,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="../css/buttons.bootstrap4.min.css">
 </head>
 
-
-
 <body class="hold-transition sidebar-mini">
     <?php require('admin_nav.php') ?>
 
@@ -52,12 +50,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 style="text-transform: uppercase">รายงาน</h1>
+                        <h1 style="text-transform: uppercase">อัพเดทข้อมูล</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="insurance_insert_form.php" style="text-transform: uppercase">รายงาน</a></li>
-                            <li class="breadcrumb-item active" style="text-transform: uppercase">รายงาน</li>
+                            <li class="breadcrumb-item"><a href="order.php" style="text-transform: uppercase">อัพเดทข้อมูล</a></li>
+                            <li class="breadcrumb-item active" style="text-transform: uppercase">อัพเดทข้อมูล</li>
                         </ol>
                     </div>
                 </div>
@@ -65,6 +63,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </section>
 
 
+        <?php
+
+
+
+
+
+        $id = $_GET['id'];
+
+        $sql2 = "SELECT users_info.name, users_info.id, users_info.tel, status.status_name, sub_status.sub_name,sub_status.status
+            FROM ((users_info
+            LEFT  JOIN status ON users_info.status = status.id)
+            LEFT  JOIN sub_status ON users_info.sub_status = sub_status.id)
+            WHERE users_info.id = $id;
+            ";
+        $result2 = mysqli_query($con, $sql2);
+
+        $row = mysqli_fetch_array($result2);
+
+        $id_status = $row['status'];
+        ?>
 
 
         <!-- Main content -->
@@ -73,51 +91,88 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="row">
                     <div class="offset-3 col-md-6">
                         <!-- general form elements -->
-                        <div class="card card-warning">
+                        <div class="card card-success">
                             <div class="card-header">
-                                <h3 class="card-title">รายงาน</h3>
+                                <h3 class="card-title">อัพเดทข้อมูล</h3>
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
+
                             <?php
 
+                            $sql3 = "SELECT * FROM status";
+                            $result3 = mysqli_query($con, $sql3);
 
-                            $sql = "SELECT * FROM status";
-                            $result = mysqli_query($con, $sql);
+
+                            $sql4 = "SELECT * FROM sub_status WHERE status = $id_status";
+                            $result4 = mysqli_query($con, $sql4);
+
+
 
 
                             ?>
-                            <form action="../backend/send_group.php" method="POST">
 
+                            <form action="../backend/member_update.php" method="POST">
                                 <div class="card-body">
-                                    <div class="col-sm-12">
-                                        <!-- select -->
-                                        <div class="form-group">
-                                            <label>Select Status</label>
-                                            <select class="custom-select" name="status" id="status">
-                                                <option class="text-center" selected disabled> ------- Select Status -------</option>
-                                                <?php while ($row = mysqli_fetch_array($result)) { ?>
-                                                    <option value="<?php echo $row['id'] ?>" class="text-center"> <?php echo $row['status_name'] ?></option>
-                                                <?php  } ?>
-                                            </select> <br><br>
-                                            <label>Select Sub-status</label>
-                                            <select class="custom-select" name="sub_status" id="sub_status">
-                                                <option class="text-center">------- Select status -------</option>
-                                            </select>
-                                        <div id="detail" style="display: none;" class="text-right">
-                                        </div>
-                                        </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1" name="id">ลำดับที่ <?php echo $row['id']; ?> </label><br>
+
+                                        <label for="exampleInputEmail1">ชื่อ</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" name="insurance" value="<?php echo $row['name']; ?>" placeholder="Insurance Name" required>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" name="ids" value="<?php echo $row['id']; ?>" hidden placeholder="Insurance Name">
+
                                     </div>
                                     <div class="form-group">
-                                        <label>Text</label>
-                                        <textarea class="form-control" name="text" rows="3" required placeholder="Enter ..."></textarea>
+                                        <label for="exampleInputPassword1">โทรศัพท์</label>
+                                        <input type="phone" class="form-control" id="exampleInputPassword1" name="phone" value="<?php echo $row['tel']; ?>" placeholder="Phone" required>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">ระดับ</label>
+                                        <select class="custom-select" name="status" id="status">
+
+
+                                            <?php foreach ($result3 as $value) {  ?>
+
+                                                <option value="<?php echo $value['id'] ?>" <?php if ($value['status_name'] == $row['status_name']) {
+                                                                                                echo "selected";
+                                                                                            } ?>>
+
+                                                    <?php echo $value['status_name']; ?></option>
+
+
+
+                                            <?php  } ?>
+                                        </select>
+                                   
+
+                                        <label for="exampleInputPassword1">คลาส</label>
+
+                                        <select class="custom-select" name="sub_name" id="sub_name" required>
+
+
+                                            <?php
+                                            
+                                            if($row['sub_name'] != ""){
+                                            while ($row3 = mysqli_fetch_array($result4)) {  ?>
+
+                                                <option value="<?php echo $row3['id'] ?>" <?php if ($row3['sub_name'] == $row['sub_name']) {
+                                                                        echo "selected";
+                                                                    } ?> >
+
+                                                    <?php echo $row3['sub_name']; ?></option>
+
+                                            <?php  } ?>
+                                            <?php  } ?>
+                                        </select>
+                                    </div>
+
                                 </div>
                                 <!-- /.card-body -->
 
-
                                 <div class="card-footer">
+
                                     <button type="submit" class="btn btn-primary d-block m-auto">บันทึก</button>
+                                    
                                 </div>
 
                             </form>
@@ -208,63 +263,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             updateTextView($(this));
                         });
                     });
-                </script>
 
-                <script>
-      /* --------------------------------------- select sub status -------------------------------------------------   */                
-                   
+
                     $('#status').change(function() {
 
-
-
                         var id = $(this).val();
+
                         $.ajax({
                             type: "post",
-                            url: "../backend/select_status.php",
+                            url: "../backend/member_select.php",
                             data: {
                                 status_id: id
                             },
 
                             success: function(data) {
-                                
-                                $('#sub_status').html(data);
+
+                                console.log(data);
+                                $('#sub_name').html(data);
 
                             }
                         });
-
-/*      --------------------------------------- --------------------------------------------------------------*/    
-
-                        var sub_id = $(this).val();
-                            console.log(sub_id);
-
-                            $('#detail').hide();
-
-
-                        $('#sub_status').change(function() {
-
-                            var sub_id = $(this).val();
-                            console.log(sub_id);
-
-                            $('#detail').show();
-
-
-                            var id = $(this).val();
-                            
-                        $.ajax({
-                            type: "post",
-                            url: "../backend/select_test.php",
-                            data: {
-                                status_id: id
-                            },
-
-                            success: function(data) {
-                                
-                                $('#detail').html(data);
-
-                            }
-                        });
-                        });
-
                     });
                 </script>
 </body>
