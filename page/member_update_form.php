@@ -153,6 +153,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <?php
                                             
                                             if($row['sub_name'] != ""){
+                                                
                                             while ($row3 = mysqli_fetch_array($result4)) {  ?>
 
                                                 <option value="<?php echo $row3['id'] ?>" <?php if ($row3['sub_name'] == $row['sub_name']) {

@@ -38,6 +38,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="../css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="../css/responsive.bootstrap4.min.css">
     <link rel="stylesheet" href="../css/buttons.bootstrap4.min.css">
+
 </head>
 
 
@@ -104,13 +105,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <select class="custom-select" name="sub_status" id="sub_status">
                                                 <option class="text-center">------- Select status -------</option>
                                             </select>
-                                        <div id="detail" style="display: none;" class="text-right">
-                                        </div>
+                                            <div id="detail" style="display: none;" class="text-right">
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Text</label>
-                                        <textarea class="form-control" name="text" rows="3" required placeholder="Enter ..."></textarea>
+                                        <textarea class="form-control" id="myTextarea" name="text" rows="3" required placeholder="Enter ..."></textarea>
                                     </div>
                                 </div>
                                 <!-- /.card-body -->
@@ -164,6 +165,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <script src="../js/buttons.html5.min.js"></script>
                 <script src="../js/buttons.print.min.js"></script>
                 <script src="../js/buttons.colVis.min.js"></script>
+                <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.css" integrity="sha512-vEia6TQGr3FqC6h55/NdU3QSM5XR6HSl5fW71QTKrgeER98LIMGwymBVM867C1XHIkYD9nMTfWK2A0xcodKHNA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.js" integrity="sha512-hkvXFLlESjeYENO4CNi69z3A1puvONQV5Uh+G4TUDayZxSLyic5Kba9hhuiNLbHqdnKNMk2PxXKm0v7KDnWkYA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
                 <script>
                     $(function() {
@@ -208,11 +212,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             updateTextView($(this));
                         });
                     });
+
+
+
+                    $(document).ready(function() {
+                        $('#myTextarea').emojioneArea({
+                            pickerPosition: "right"
+                        });
+                    });
                 </script>
 
                 <script>
-      /* --------------------------------------- select sub status -------------------------------------------------   */                
-                   
+                    /* --------------------------------------- select sub status -------------------------------------------------   */
+
                     $('#status').change(function() {
 
 
@@ -226,18 +238,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             },
 
                             success: function(data) {
-                                
+
                                 $('#sub_status').html(data);
 
                             }
                         });
 
-/*      --------------------------------------- --------------------------------------------------------------*/    
+                        /*      --------------------------------------- --------------------------------------------------------------*/
 
                         var sub_id = $(this).val();
-                            console.log(sub_id);
+                        console.log(sub_id);
 
-                            $('#detail').hide();
+                        $('#detail').hide();
 
 
                         $('#sub_status').change(function() {
@@ -249,24 +261,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
                             var id = $(this).val();
-                            
-                        $.ajax({
-                            type: "post",
-                            url: "../backend/select_test.php",
-                            data: {
-                                status_id: id
-                            },
 
-                            success: function(data) {
-                                
-                                $('#detail').html(data);
+                            $.ajax({
+                                type: "post",
+                                url: "../backend/select_test.php",
+                                data: {
+                                    status_id: id
+                                },
 
-                            }
-                        });
+                                success: function(data) {
+
+                                    $('#detail').html(data);
+
+                                }
+                            });
                         });
 
                     });
                 </script>
+
 </body>
 
 </html>

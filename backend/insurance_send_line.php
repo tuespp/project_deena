@@ -22,9 +22,9 @@ while ($row2 = mysqli_fetch_array($result2)) {
     $exp = $row2['exp'];
     $status = $row2['status'];
 
+    $emoji = array("\u{23F0}","\u{1F699}","\u{1F4C6}","\u{1F4B8}","\u{260E}");
 
 
-   
  
 
 
@@ -35,7 +35,7 @@ while ($row2 = mysqli_fetch_array($result2)) {
         $userId = $user_id;
         $messages = array(
             'type' => 'text',
-            'text' => 'แจ้งเตือนต่ออายุ'. "\n".'ทะเบียนรถ:' . " " . $car_license . "\n" . 'ประกันรถยนต์จะหมดอายุวันที่:' . " " . $exp . "\n" . 'เบี้ยต่ออายุ:' . " " . $interest . 'บ.' . "\n" . 'โปรดติดต่อ:' . " " . $phone . " " . 'จากดีน่า',
+            'text' => 'แจ้งเตือนต่ออายุ'." ".$emoji[0]. "\n" ."------------------------------". "\n".'ทะเบียนรถ:' . " " . $car_license ." ".$emoji[1]. "\n" . 'ประกันรถยนต์จะหมดอายุวันที่:' . " " . $exp ." ".$emoji[2]. "\n" . 'เบี้ยต่ออายุ:' . " " . $interest . 'บ.' ." ".$emoji[3]. "\n" . 'โปรดติดต่อ:' . " " . $phone . " " . 'จากดีน่า'." ".$emoji[4],
              
             
 

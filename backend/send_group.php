@@ -10,6 +10,7 @@ $sub_status = $_POST['sub_status'];
 $text = $_POST['text'];
 
 
+
 if ($sub_status == ""){
 
     $sql = "SELECT * FROM users_info WHERE status = '$status'";
@@ -47,9 +48,9 @@ if ($sub_status == ""){
         $result = curl_exec($ch);
     }
     if ($result) {
-        echo " <script type='text/javascript'>alert('Send message success');
+       /*  echo " <script type='text/javascript'>alert('Send message success');
     window.location.href='../page/report.php'
-    </script>";
+    </script>"; */
     } 
 
 }else{
@@ -64,7 +65,8 @@ if ($sub_status == ""){
     
         $all_id = $id;
     };
-    
+
+   
     foreach ($all_id as $user_id) {
         $access_token = 'ynU0QtbQ0RaavkO7aEfXHYEdAlpU+xzWDtyMgOI5fsQegkB+duJi6HEL1DSBwW6O09MSUsGhASBAiVEt8mhF8WV+M7S+BMJyRKnoTEqtfNDN7de82RC4p+okDUQ4YQYFH7KQsnDVTo+/eEbjQeeRawdB04t89/1O/w1cDnyilFU=';
           $userId = $user_id; 
@@ -72,7 +74,11 @@ if ($sub_status == ""){
          $messages = array(
             'type' => 'text',
             'text' => $text,
+
+           
         );
+        
+      
         $post = json_encode(array(
             'to' => array($userId),
             'messages' => array($messages),

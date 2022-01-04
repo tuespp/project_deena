@@ -90,6 +90,7 @@
 
             document.getElementById("user").value = profile.userId;
             document.getElementById("access").value = (liff.getAccessToken());
+            document.getElementById("email").value = (liff.getDecodedIDToken().email);
 
 
         }

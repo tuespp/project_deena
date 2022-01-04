@@ -24,7 +24,8 @@ while ($row2 = mysqli_fetch_array($result2)) {
     $status = $row2['status'];
 
 
-   
+    $emoji = array("\u{23F0}","\u{1F699}","\u{1F4C6}","\u{1F4B8}","\u{260E}");
+
   
 
 
@@ -36,7 +37,7 @@ while ($row2 = mysqli_fetch_array($result2)) {
         $userId = $user_id;
         $messages = array(
             'type' => 'text',
-            'text' => 'แจ้งชำระเงิน'. "\n" .'ทะเบียนรถ:' . " " . $car_license . "\n" . 'โปรดชำระค่าเบี้ยประกันงวดที่:' . " " . $installment_no . "\n" . 'จำนวน:' . " " . $installment . 'บ.' . "\n" . 'ภายในวันที่:' . " " . $date_end . " ",
+            'text' => 'แจ้งชำระเงิน'." ".$emoji[0]. "\n" ."------------------------------". "\n" .'ทะเบียนรถ:' . " " . $car_license ." ".$emoji[1]. "\n" . 'โปรดชำระค่าเบี้ยประกันงวดที่:' . " " . $installment_no . "\n" . 'จำนวน:' . " " . $installment . 'บ.'." ".$emoji[3] . "\n" . 'ภายในวันที่:' . " " . $date_end ." ".$emoji[2]. " ",
             
         );
         $post = json_encode(array(
