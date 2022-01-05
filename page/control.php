@@ -223,6 +223,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     <th>Admin</th>
                                                     <th>Employee</th>
                                                     <th>Member</th>
+                                                    <th>Del</th>
+
 
                                                 </tr>
                                             </thead>
@@ -251,11 +253,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                 }
                                                             }
                                                             ?>
+                                                           <td><a href="tab_edit.php?id=<?php echo  $idr ?>"><i class="far fa-edit"></a></i>&nbsp;&nbsp;&nbsp;<a href="../backend/tab_delete.php?id=<?php echo  $idr ?>" onclick="return confirm('Are you sure to delete ?')"><i class="far fa-trash-alt"></i></a></td>
+
                                                         </tr>
                                                     <?php  } ?>
                                                 </div>
                                             </tbody>
-                                            <input type="submit" name="but_update" class="btn btn-warning mb-3 d-block" value="Save Data">
+                                            <div>
+                                            <input type="submit" name="but_update" class="btn btn-warning " value="Save Data">
+                                            <a href="tab_manage.php" name="but_update" class="btn btn-success"> ADD</a>
+
                                         </table>
                                     </div>
                                 </div>
